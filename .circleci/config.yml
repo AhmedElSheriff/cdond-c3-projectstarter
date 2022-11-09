@@ -12,7 +12,7 @@ commands:
 defaults: &jobsdefault
   docker:
     - image: circleci/node:13.8.0
-  working_directory: ~/frontend
+  # working_directory: ~/project
 
 jobs:
   say-hello:
@@ -84,12 +84,18 @@ jobs:
     <<: *jobsdefault
     steps:
       - checkout
-      - run: npm i
+      - run:
+          command: |
+          cd ~/project/frontend
+          npm i
       - save_cache:
           key: "npm-packages"
           paths:
-            - /frontend/node_modules
-      - run: npm run lint
+            - ~/project/frontend/node_modules
+      - run: 
+          command: |
+          cd ~/project/frontend
+          npm run lint
   
   test_frontend:
     <<: *jobsdefault
@@ -126,9 +132,9 @@ workflows:
   build_pipeline:
     jobs:
       - build_frontend
-      - test_frontend:
-          requires:
-            - build_frontend
-      - analyze_frontend:
-          requires:
-            - test_frontend
+      # - test_frontend:
+      #     requires:
+      #       - build_frontend
+      # - analyze_frontend:
+      #     requires:
+      #       - test_frontend
