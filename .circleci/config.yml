@@ -12,7 +12,7 @@ commands:
 defaults: &jobsdefault
   docker:
     - image: circleci/node:13.8.0
-  # working_directory: ~/project
+  working_directory: ~/frontend
 
 jobs:
   say-hello:
