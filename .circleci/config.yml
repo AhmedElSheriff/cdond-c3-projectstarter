@@ -129,6 +129,6 @@ workflows:
       - test_frontend:
           requires:
             - build_frontend
-      - analyze_frontend
+      - analyze_frontend:
           requires:
             - test_frontend
