@@ -126,5 +126,9 @@ workflows:
   build_pipeline:
     jobs:
       - build_frontend
-      - test_frontend
+      - test_frontend:
+          requires:
+            - build_frontend
       - analyze_frontend
+          requires:
+            - test_frontend
