@@ -51,7 +51,7 @@ jobs:
       - checkout
       - run:
           name: "Save Hello World"
-          command: echo "Hello World" > output.txt
+          command: echo "Hello World" > ~/output.txt
       - persist_to_workspace:
           root: ~/
           paths:
