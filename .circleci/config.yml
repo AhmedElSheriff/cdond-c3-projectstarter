@@ -76,15 +76,55 @@ jobs:
           id: ${CIRCLE_WORKFLOW_ID}
   
 
+
+
+  # Building My First Pipeline
+
+  build_frontend:
+    <<: *jobsdefault
+    steps:
+      - checkout
+      - run: npm i
+      - save_cache:
+        key: "npm-packages"
+        paths:
+          - /frontend/node_modules
+      - run: npm run lint
+  
+  test_frontend:
+    <<: *jobsdefault
+    steps:
+      - checkout
+      - restore_cache:
+        keys:
+          - "npm-packages"
+      - run: npm run test
+
+  analyze_frontend:
+  <<: *jobsdefault
+  steps:
+    - checkout
+    - restore_cache:
+      keys:
+        - "npm-packages"
+    - run: npm audit
+
+
 workflows:
-  say-hello-workflow:
-    jobs:
+  # say-hello-workflow:
+  #   jobs:
       # - say-hello
       # - print_hello
       # - print_world:
       #     requires: [print_hello]
       # - print_my_name
-      - save_hello_world_output
+      # - save_hello_world_output
       # - print_output_file:
       #     requires: [save_hello_world_output]
-      - print_pipeline_id_job
+      # - print_pipeline_id_job
+  
+  build_pipeline:
+    jobs:
+      - build_frontend
+      - test_frontend
+      - analyze_frontend
