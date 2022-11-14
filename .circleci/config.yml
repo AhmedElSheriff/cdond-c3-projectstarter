@@ -47,7 +47,8 @@ jobs:
           name: Build front-end
           command: |
             cd frontend
-            npm i
+            npm install
+            npm run build
       - save_cache:
           paths: [frontend/node_modules]
           key: frontend-build
@@ -75,7 +76,12 @@ jobs:
       - restore_cache:
           keys:
             - "frontend-build"
-      - run: npm run test
+      - run: 
+          name: Test Frontend
+          command: |
+            cd frontend
+            npm run test
+
 
 
   # test-backend:
@@ -93,7 +99,11 @@ jobs:
       - restore_cache:
           keys:
             - "npm-packages"
-      - run: npm audit
+      - run: 
+          name: Scan Frontend
+          command: |
+            cd frontend
+            npm audit
 
   # scan-backend:
   #   docker:
